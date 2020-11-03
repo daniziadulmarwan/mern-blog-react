@@ -9,9 +9,7 @@ const Home = () => {
   useEffect(() => {
     Axios.get("http://localhost:4000/v1/blog/posts")
       .then((result) => {
-        console.log("data API", result.data);
         const responseAPI = result.data;
-
         setDataBlog(responseAPI.data);
       })
       .catch((error) => {
