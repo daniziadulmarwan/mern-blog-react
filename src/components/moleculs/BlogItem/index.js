@@ -5,9 +5,8 @@ import "./blogitem.scss";
 import { useHistory } from "react-router-dom";
 
 const BlogItem = (props) => {
+  const { image, title, name, date, body } = props;
   const history = useHistory();
-
-  const { id, image, title, name, date, body } = props;
   return (
     <div className="blog-item">
       <img className="image-thumb" src={image} alt="post" />
@@ -20,7 +19,7 @@ const BlogItem = (props) => {
         <Gap height={10} />
         <Button
           title="View Detail"
-          onClick={() => history.push(`/detail-blog/${id}`)}
+          onClick={() => history.push(`/detail-blog`)}
         />
       </div>
     </div>
