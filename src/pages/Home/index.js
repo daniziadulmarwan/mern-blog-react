@@ -1,51 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./home.scss";
 import { Button, BlogItem, Gap } from "../../components";
 import { useHistory } from "react-router-dom";
-import Axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { setDataBlog } from "../../configs/redux/action";
 
 const Home = () => {
-  // const [DataBlog, setDataBlog] = useState([]);
-  const { dataBlogs, name } = useSelector((state) => state);
+  const { dataBlog } = useSelector((state) => state.homeReducer);
+  const { name } = useSelector((state) => state.globalReducer);
   const dispatch = useDispatch();
 
-  console.log("data blog:", dataBlogs);
-
   useEffect(() => {
-    setTimeout(() => {
-      dispatch({
-        type: "UPDATE_NAME",
-      });
-    }, 3000);
-
-    Axios.get("http://localhost:4000/v1/blog/posts?page=2&perPage=2")
-      .then((result) => {
-        const responseAPI = result.data;
-
-        dispatch({
-          type: "UPDATE_DATA_BLOG",
-          payload: responseAPI.data,
-        });
-        // setDataBlog(responseAPI.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    dispatch(setDataBlog());
+  }, [dispatch]);
   const history = useHistory();
   return (
     <div className="home-page-wrapper">
       <div className="create-wrapper">
-        {name}
         <Button
           title="Create Blog"
           onClick={() => history.push("/create-blog")}
         />
       </div>
+      {name}
       <Gap height={20} />
       <div className="content-wrapper">
-        {dataBlogs.map((blog) => {
+        {dataBlog.map((blog) => {
           return (
             <BlogItem
               key={blog._id}
